@@ -6,4 +6,4 @@
 [![Code Size](https://img.shields.io/github/languages/code-size/guimauvesoftware/kaccelero)]()
 [![codecov](https://codecov.io/gh/guimauvesoftware/kaccelero/graph/badge.svg?token=XZ7HrShgH3)](https://codecov.io/gh/guimauvesoftware/kaccelero)
 
-The all-in-one toolkit more mobile & web development in Kotlin/Swift.
+The all-in-one toolkit for mobile & web development in Kotlin/Swift.
