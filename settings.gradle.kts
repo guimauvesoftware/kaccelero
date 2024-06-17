@@ -27,6 +27,7 @@ dependencyResolutionManagement {
 
             // Tests
             library("tests-mockk", "io.mockk:mockk:1.13.11")
+            library("tests-h2", "com.h2database:h2:2.2.224")
 
             // Exposed
             version("exposed", "0.51.1")
@@ -53,6 +54,7 @@ dependencyResolutionManagement {
             version("ktor", "2.3.11")
             library("ktor-serialization-kotlinx-json", "io.ktor", "ktor-serialization-kotlinx-json").versionRef("ktor")
             library("ktor-server-core", "io.ktor", "ktor-server-core").versionRef("ktor")
+            library("ktor-server-test-host", "io.ktor", "ktor-server-test-host").versionRef("ktor")
             library("ktor-server-content-negotiation", "io.ktor", "ktor-server-content-negotiation").versionRef("ktor")
             library("ktor-server-sessions", "io.ktor", "ktor-server-sessions").versionRef("ktor")
             library("ktor-server-auth-jwt", "io.ktor", "ktor-server-auth-jwt").versionRef("ktor")
@@ -61,6 +63,7 @@ dependencyResolutionManagement {
             library("ktor-client-core", "io.ktor", "ktor-client-core").versionRef("ktor")
             library("ktor-client-content-negotiation", "io.ktor", "ktor-client-content-negotiation").versionRef("ktor")
             library("ktor-client-auth", "io.ktor", "ktor-client-auth").versionRef("ktor")
+            library("ktor-client-mock", "io.ktor", "ktor-client-mock").versionRef("ktor")
 
             bundle(
                 "ktor-server-api",
@@ -70,6 +73,14 @@ dependencyResolutionManagement {
                     "ktor-server-sessions",
                     "ktor-server-auth-jwt",
                     "ktor-serialization-kotlinx-json"
+                )
+            )
+            bundle(
+                "ktor-server-tests",
+                listOf(
+                    "ktor-server-test-host",
+                    "ktor-client-core",
+                    "ktor-client-content-negotiation"
                 )
             )
             bundle(
@@ -95,6 +106,29 @@ dependencyResolutionManagement {
                     "ktor-client-auth"
                 )
             )
+            bundle(
+                "ktor-client-tests",
+                listOf(
+                    "ktor-client-mock",
+                )
+            )
+
+            // Swagger/OpenAPI
+            library("swagger-codegen", "io.swagger.codegen.v3:swagger-codegen:3.0.57")
+            library("swagger-codegen-generators", "io.swagger.codegen.v3:swagger-codegen-generators:1.0.50")
+            library("swagger-core", "io.swagger.core.v3:swagger-core:2.2.22")
+            bundle(
+                "swagger",
+                listOf(
+                    "swagger-codegen",
+                    "swagger-codegen-generators",
+                    "swagger-core"
+                )
+            )
+
+            // Others
+            library("bcrypt", "at.favre.lib:bcrypt:0.9.0")
+            library("sentry", "io.sentry:sentry-kotlin-extensions:7.10.0")
         }
     }
 }
@@ -104,4 +138,15 @@ includeBuild("convention-plugins")
 include(":kaccelero-core")
 include(":kaccelero-i18n")
 include(":exposed-core")
+include(":ktor-auth")
+include(":ktor-auth-apple")
+include(":ktor-database-sessions")
+include(":ktor-health")
+include(":ktor-i18n")
+include(":ktor-i18n-freemarker")
+include(":ktor-routers")
+include(":ktor-routers-websockets")
+include(":ktor-routers-client")
+include(":ktor-routers-locale")
+include(":ktor-sentry")
 
