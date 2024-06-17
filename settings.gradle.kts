@@ -28,6 +28,27 @@ dependencyResolutionManagement {
             // Tests
             library("tests-mockk", "io.mockk:mockk:1.13.11")
 
+            // Exposed
+            version("exposed", "0.51.1")
+            library("exposed-core", "org.jetbrains.exposed", "exposed-core").versionRef("exposed")
+            library("exposed-jdbc", "org.jetbrains.exposed", "exposed-jdbc").versionRef("exposed")
+            library("exposed-dao", "org.jetbrains.exposed", "exposed-dao").versionRef("exposed")
+            library("exposed-kotlin-datetime", "org.jetbrains.exposed", "exposed-kotlin-datetime").versionRef("exposed")
+            library("exposed-json", "org.jetbrains.exposed", "exposed-json").versionRef("exposed")
+            library("exposed-money", "org.jetbrains.exposed", "exposed-money").versionRef("exposed")
+
+            bundle(
+                "exposed",
+                listOf(
+                    "exposed-core",
+                    "exposed-jdbc",
+                    "exposed-dao",
+                    "exposed-kotlin-datetime",
+                    "exposed-json",
+                    "exposed-money"
+                )
+            )
+
             // Ktor
             version("ktor", "2.3.11")
             library("ktor-serialization-kotlinx-json", "io.ktor", "ktor-serialization-kotlinx-json").versionRef("ktor")
@@ -80,5 +101,7 @@ dependencyResolutionManagement {
 
 rootProject.name = "kaccelero"
 includeBuild("convention-plugins")
-include(":core")
+include(":kaccelero-core")
+include(":kaccelero-i18n")
+include(":exposed-core")
 
