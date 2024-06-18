@@ -18,6 +18,7 @@ dependencyResolutionManagement {
             plugin("serialization", "org.jetbrains.kotlin.plugin.serialization").versionRef("kotlin")
             plugin("kover", "org.jetbrains.kotlinx.kover").version("0.8.0")
             plugin("ksp", "com.google.devtools.ksp").version("2.0.0-1.0.21")
+            plugin("maven", "com.vanniktech.maven.publish").version("0.28.0")
 
             // Kotlinx
             library("kotlinx-coroutines", "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
@@ -134,7 +135,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "kaccelero"
-includeBuild("convention-plugins")
 include(":core")
 include(":controllers")
 include(":routers")
