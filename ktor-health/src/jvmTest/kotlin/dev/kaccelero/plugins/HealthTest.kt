@@ -15,7 +15,7 @@ class HealthTest {
 
     private fun installApp(
         application: ApplicationTestBuilder,
-        configure: Health.Configuration.() -> Unit = {},
+        configure: HealthConfiguration.() -> Unit = {},
     ): HttpClient {
         application.application {
             install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) {
