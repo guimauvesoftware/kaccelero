@@ -23,8 +23,8 @@ class KtorSentry private constructor() {
                     it.apply(configure)
 
                     // Disable traces for health checks
-                    if (pipeline.pluginRegistry.contains(KtorHealth.key)) {
-                        val healthChecks = pipeline.plugin(KtorHealth).config.checks
+                    if (pipeline.pluginRegistry.contains(Health.key)) {
+                        val healthChecks = pipeline.plugin(Health).config.checks
                         val oldTracesSampler = it.tracesSampler
                         it.setTracesSampler { context ->
                             context.customSamplingContext?.let { samplingContext ->

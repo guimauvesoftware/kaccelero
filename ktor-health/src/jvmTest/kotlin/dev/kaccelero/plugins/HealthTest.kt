@@ -11,17 +11,17 @@ import kotlinx.serialization.json.Json
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class KtorHealthTest {
+class HealthTest {
 
     private fun installApp(
         application: ApplicationTestBuilder,
-        configure: KtorHealth.Configuration.() -> Unit = {},
+        configure: Health.Configuration.() -> Unit = {},
     ): HttpClient {
         application.application {
             install(io.ktor.server.plugins.contentnegotiation.ContentNegotiation) {
                 json(Json)
             }
-            install(KtorHealth, configure)
+            install(Health, configure)
         }
         return application.createClient {
             install(io.ktor.client.plugins.contentnegotiation.ContentNegotiation) {
