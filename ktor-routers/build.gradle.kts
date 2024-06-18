@@ -30,7 +30,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":kaccelero-core"))
+                api(project(":routers"))
                 api(libs.bundles.ktor.server.api)
                 api(libs.bundles.swagger)
             }

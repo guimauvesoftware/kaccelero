@@ -20,9 +20,9 @@ import kotlin.reflect.typeOf
 
 @Suppress("UNCHECKED_CAST")
 abstract class AbstractChildModelRouter<Model : IChildModel<Id, CreatePayload, UpdatePayload, ParentId>, Id, CreatePayload : Any, UpdatePayload : Any, ParentModel : IChildModel<ParentId, *, *, *>, ParentId>(
-    final override val modelTypeInfo: TypeInfo,
-    final override val createPayloadTypeInfo: TypeInfo,
-    final override val updatePayloadTypeInfo: TypeInfo,
+    val modelTypeInfo: TypeInfo,
+    val createPayloadTypeInfo: TypeInfo,
+    val updatePayloadTypeInfo: TypeInfo,
     final override val controller: IChildModelController<Model, Id, CreatePayload, UpdatePayload, ParentModel, ParentId>,
     final override val controllerClass: KClass<out IChildModelController<Model, Id, CreatePayload, UpdatePayload, ParentModel, ParentId>>,
     final override val parentRouter: IChildModelRouter<ParentModel, *, *, *, *, *>?,
@@ -84,8 +84,9 @@ abstract class AbstractChildModelRouter<Model : IChildModel<Id, CreatePayload, U
         )
     }
 
-    override fun createRoutes(root: Route, openAPI: OpenAPI?) {
-        controllerRoutes.forEach { createControllerRoute(root, it, openAPI) }
+    override fun createRoutes(root: IRoute, openAPI: IOpenAPI?) {
+        if (root !is KtorRoute) return
+        controllerRoutes.forEach { createControllerRoute(root.route, it, (openAPI as? SwaggerOpenAPI)?.openAPI) }
     }
 
     abstract fun createControllerRoute(root: Route, controllerRoute: ControllerRoute, openAPI: OpenAPI?)
@@ -128,9 +129,9 @@ abstract class AbstractChildModelRouter<Model : IChildModel<Id, CreatePayload, U
                     return@associateWith payload
                 }
                 annotations.firstNotNullOfOrNull { it as? dev.kaccelero.annotations.ParentModel }?.let {
-                    var target: IChildModelRouter<*, *, *, *, *, *> = this
+                    var target: AbstractChildModelRouter<*, *, *, *, *, *> = this
                     do {
-                        target = target.parentRouter
+                        target = target.parentRouter as? AbstractChildModelRouter<*, *, *, *, *, *>
                             ?: throw IllegalArgumentException("Illegal parent model: ${parameter.type}")
                     } while (target.modelTypeInfo.kotlinType != parameter.type)
                     return@associateWith target.get(call)
@@ -148,14 +149,15 @@ abstract class AbstractChildModelRouter<Model : IChildModel<Id, CreatePayload, U
 
     // Default operations
 
-    override suspend fun get(call: ApplicationCall): Model {
+    open suspend fun get(call: ApplicationCall): Model {
         return controllerRoutes.singleOrNull { it.type == RouteType.getModel }?.let {
             invokeControllerRoute(call, it)
         } as Model
     }
 
-    override fun getOpenAPIParameters(self: Boolean): List<Parameter> {
-        return parentRouter?.getOpenAPIParameters().orEmpty() + if (self) listOf(
+    open fun getOpenAPIParameters(self: Boolean = true): List<Parameter> {
+        return (parentRouter as? AbstractChildModelRouter<*, *, *, *, *, *>)?.getOpenAPIParameters()
+            .orEmpty() + if (self) listOf(
             Parameter()
                 .name(id)
                 .schema(Schema<Id>().type(modelTypeInfo.type.memberProperties.first { it.name == "id" }.returnType.toString()))

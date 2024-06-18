@@ -56,8 +56,9 @@ class AbstractModelRouterTest {
             id,
             prefix
         ) {
-            override fun createRoutes(root: Route, openAPI: OpenAPI?) {
-                root.get("$fullRoute/{${this.id}}") {
+            override fun createRoutes(root: IRoute, openAPI: IOpenAPI?) {
+                if (root !is KtorRoute) return
+                root.route.get("$fullRoute/{${this.id}}") {
                     call.respond(mock)
                 }
             }

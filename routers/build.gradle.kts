@@ -9,8 +9,8 @@ plugins {
 publishing {
     publications.withType<MavenPublication> {
         pom {
-            name.set("ktor-routers-client")
-            description.set("Client for APIs using ktor-routers.")
+            name.set("routers")
+            description.set("Routers of kaccelero.")
         }
     }
 }
@@ -37,7 +37,7 @@ kotlin {
 
     // Tier 3
     mingwX64()
-    //watchosDeviceArm64() // Not supported by ktor
+    watchosDeviceArm64()
 
     // jvm & js
     jvmToolchain(21)
@@ -58,17 +58,20 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
     sourceSets {
+        all {
+            languageSettings.apply {
+                optIn("kotlin.js.ExperimentalJsExport")
+            }
+        }
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("reflect"))
-                api(project(":core"))
-                api(libs.bundles.ktor.client.api)
+                api(project(":controllers"))
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.bundles.ktor.client.tests)
+                implementation(libs.tests.mockk)
             }
         }
     }

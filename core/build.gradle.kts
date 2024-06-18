@@ -9,8 +9,8 @@ plugins {
 publishing {
     publications.withType<MavenPublication> {
         pom {
-            name.set("ktor-routers-client")
-            description.set("Client for APIs using ktor-routers.")
+            name.set("core")
+            description.set("Core of kaccelero.")
         }
     }
 }
@@ -37,7 +37,7 @@ kotlin {
 
     // Tier 3
     mingwX64()
-    //watchosDeviceArm64() // Not supported by ktor
+    watchosDeviceArm64()
 
     // jvm & js
     jvmToolchain(21)
@@ -58,18 +58,48 @@ kotlin {
 
     applyDefaultHierarchyTemplate()
     sourceSets {
+        all {
+            languageSettings.apply {
+                optIn("kotlin.js.ExperimentalJsExport")
+            }
+        }
         val commonMain by getting {
             dependencies {
+                api(libs.kotlinx.coroutines)
+                api(libs.kotlinx.serialization.json)
+                api(libs.kotlinx.datetime)
+            }
+        }
+        val nativeMain by getting {}
+        val jvmMain by getting {
+            dependencies {
                 implementation(kotlin("reflect"))
-                api(project(":core"))
-                api(libs.bundles.ktor.client.api)
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.bundles.ktor.client.tests)
+                implementation(libs.tests.mockk)
             }
+        }
+        val desktopAndJsMain by creating {
+            dependsOn(commonMain)
+        }
+        val jsMain by getting {
+            dependsOn(desktopAndJsMain)
+            dependencies {
+                api(libs.kotlin.js)
+            }
+        }
+        val desktopMain by creating {
+            dependsOn(nativeMain)
+            dependsOn(desktopAndJsMain)
+        }
+        val mingwMain by getting {
+            dependsOn(desktopMain)
+        }
+        val linuxMain by getting {
+            dependsOn(desktopMain)
         }
     }
 }

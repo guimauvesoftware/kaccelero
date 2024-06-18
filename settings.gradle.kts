@@ -135,8 +135,10 @@ dependencyResolutionManagement {
 
 rootProject.name = "kaccelero"
 includeBuild("convention-plugins")
-include(":kaccelero-core")
-include(":kaccelero-i18n")
+include(":core")
+include(":controllers")
+include(":routers")
+include(":i18n")
 include(":exposed-core")
 include(":ktor-auth")
 include(":ktor-auth-apple")

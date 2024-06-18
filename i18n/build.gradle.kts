@@ -9,8 +9,8 @@ plugins {
 publishing {
     publications.withType<MavenPublication> {
         pom {
-            name.set("ktor-routers-client")
-            description.set("Client for APIs using ktor-routers.")
+            name.set("i18n")
+            description.set("i18n implementations for Kotlin Multiplatform.")
         }
     }
 }
@@ -24,8 +24,8 @@ kotlin {
     iosX64()
 
     // Tier 2
-    linuxX64()
-    linuxArm64()
+    //linuxX64()
+    //linuxArm64()
     watchosSimulatorArm64()
     watchosX64()
     watchosArm32()
@@ -36,8 +36,8 @@ kotlin {
     iosArm64()
 
     // Tier 3
-    mingwX64()
-    //watchosDeviceArm64() // Not supported by ktor
+    //mingwX64()
+    watchosDeviceArm64()
 
     // jvm & js
     jvmToolchain(21)
@@ -49,26 +49,29 @@ kotlin {
             }
         }
     }
-    js {
-        binaries.library()
-        nodejs()
-        browser()
-        //generateTypeScriptDefinitions() // Not supported for now because of collections etc...
-    }
+    //js {
+    //    binaries.library()
+    //    nodejs()
+    //    browser()
+    //    //generateTypeScriptDefinitions() // Not supported for now because of collections etc...
+    //}
 
     applyDefaultHierarchyTemplate()
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("reflect"))
                 api(project(":core"))
-                api(libs.bundles.ktor.client.api)
+            }
+        }
+        val jvmMain by getting {
+            dependencies {
+                implementation(kotlin("reflect"))
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.bundles.ktor.client.tests)
+                implementation(libs.tests.mockk)
             }
         }
     }

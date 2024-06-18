@@ -3,7 +3,6 @@ package dev.kaccelero.routers
 import dev.kaccelero.annotations.ModelKey
 import dev.kaccelero.commons.localization.IGetLocaleForCallUseCase
 import dev.kaccelero.controllers.IUnitController
-import dev.kaccelero.ktor.routers.admin.LocalizedAdminUnitRouter
 import dev.kaccelero.mocks.ITestUnitController
 import dev.kaccelero.mocks.TemplateResponse
 import dev.kaccelero.mocks.TemplateResponseData

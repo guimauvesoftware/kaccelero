@@ -1,13 +1,9 @@
-package dev.kaccelero.ktor.routers.admin
+package dev.kaccelero.routers
 
 import dev.kaccelero.commons.localization.IGetLocaleForCallUseCase
 import dev.kaccelero.controllers.IUnitController
 import dev.kaccelero.controllers.UnitController
-import dev.kaccelero.routers.AdminUnitRouter
-import dev.kaccelero.routers.ILocalizedTemplateRouter
 import io.ktor.server.application.*
-import io.ktor.server.routing.*
-import io.swagger.v3.oas.models.OpenAPI
 import kotlin.reflect.KClass
 
 open class LocalizedAdminUnitRouter(
@@ -29,13 +25,13 @@ open class LocalizedAdminUnitRouter(
     prefix
 ), ILocalizedTemplateRouter {
 
-    final override fun createRoutes(root: Route, openAPI: OpenAPI?) =
+    final override fun createRoutes(root: IRoute, openAPI: IOpenAPI?) =
         localizeRoutes(root, openAPI)
 
     override fun isUnauthorizedRedirectPath(call: ApplicationCall): Boolean =
         isUnauthorizedRedirectPath(call, redirectUnauthorizedToUrl, getLocaleForCallUseCase)
 
-    override fun createLocalizedRoutes(root: Route, openAPI: OpenAPI?) =
+    override fun createLocalizedRoutes(root: IRoute, openAPI: IOpenAPI?) =
         super.createRoutes(root, openAPI)
 
 }

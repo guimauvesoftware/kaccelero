@@ -4,9 +4,7 @@ import dev.kaccelero.commons.localization.IGetLocaleForCallUseCase
 import dev.kaccelero.controllers.IChildModelController
 import dev.kaccelero.models.IChildModel
 import io.ktor.server.application.*
-import io.ktor.server.routing.*
 import io.ktor.util.reflect.*
-import io.swagger.v3.oas.models.OpenAPI
 import kotlin.reflect.KClass
 
 open class LocalizedTemplateChildModelRouter<Model : IChildModel<Id, CreatePayload, UpdatePayload, ParentId>, Id, CreatePayload : Any, UpdatePayload : Any, ParentModel : IChildModel<ParentId, *, *, *>, ParentId>(
@@ -38,13 +36,13 @@ open class LocalizedTemplateChildModelRouter<Model : IChildModel<Id, CreatePaylo
     prefix
 ), ILocalizedTemplateRouter {
 
-    final override fun createRoutes(root: Route, openAPI: OpenAPI?) =
+    final override fun createRoutes(root: IRoute, openAPI: IOpenAPI?) =
         localizeRoutes(root, openAPI)
 
     override fun isUnauthorizedRedirectPath(call: ApplicationCall): Boolean =
         isUnauthorizedRedirectPath(call, redirectUnauthorizedToUrl, getLocaleForCallUseCase)
 
-    override fun createLocalizedRoutes(root: Route, openAPI: OpenAPI?) =
+    override fun createLocalizedRoutes(root: IRoute, openAPI: IOpenAPI?) =
         super.createRoutes(root, openAPI)
 
 }

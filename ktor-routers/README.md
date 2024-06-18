@@ -21,7 +21,7 @@ api("dev.kaccelero:ktor-routers:0.1.0")
 
 ## Usage
 
-Declare a model as specified in [kaccelero-core](../kaccelero-core/README.md) to use it with routers:
+Declare a model as specified in [core](../core/README.md) to use it with routers:
 
 ```kotlin
 // MyModel.kt

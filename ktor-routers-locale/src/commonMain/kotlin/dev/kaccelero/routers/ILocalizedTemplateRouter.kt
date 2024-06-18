@@ -7,7 +7,6 @@ import dev.kaccelero.plugins.LocalizedRouteSelector
 import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.routing.*
-import io.swagger.v3.oas.models.OpenAPI
 
 interface ILocalizedTemplateRouter {
 
@@ -24,14 +23,15 @@ interface ILocalizedTemplateRouter {
 
     }
 
-    fun localizeRoutes(root: Route, openAPI: OpenAPI? = null) {
-        val localizedRoutes = root.createChild(LocalizedRouteSelector())
+    fun localizeRoutes(root: IRoute, openAPI: IOpenAPI? = null) {
+        if (root !is KtorRoute) return
+        val localizedRoutes = root.route.createChild(LocalizedRouteSelector())
         localizedRoutes.install(LocalizedRouteInterceptor)
 
-        createLocalizedRoutes(localizedRoutes, openAPI)
+        createLocalizedRoutes(KtorRoute(localizedRoutes), openAPI)
         localizedRoutes.plugin(I18n).supportedLocales.forEach {
             localizedRoutes.route("/$it") {
-                createLocalizedRoutes(this)
+                createLocalizedRoutes(KtorRoute(this))
             }
         }
     }
@@ -46,6 +46,6 @@ interface ILocalizedTemplateRouter {
         }?.startsWith(call.request.path()) == true
     }
 
-    fun createLocalizedRoutes(root: Route, openAPI: OpenAPI? = null)
+    fun createLocalizedRoutes(root: IRoute, openAPI: IOpenAPI? = null)
 
 }

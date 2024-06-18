@@ -30,7 +30,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":kaccelero-core"))
+                api(project(":core"))
                 api(libs.bundles.exposed)
             }
         }

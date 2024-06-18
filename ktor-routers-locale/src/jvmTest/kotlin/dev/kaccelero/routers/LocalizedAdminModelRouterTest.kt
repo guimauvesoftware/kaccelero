@@ -3,7 +3,6 @@ package dev.kaccelero.routers
 import dev.kaccelero.annotations.ModelKey
 import dev.kaccelero.commons.localization.IGetLocaleForCallUseCase
 import dev.kaccelero.controllers.IModelController
-import dev.kaccelero.ktor.routers.admin.LocalizedAdminModelRouter
 import dev.kaccelero.mocks.*
 import dev.kaccelero.plugins.I18n
 import io.ktor.client.*

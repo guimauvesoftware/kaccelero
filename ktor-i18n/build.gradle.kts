@@ -30,7 +30,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":kaccelero-i18n"))
+                api(project(":i18n"))
                 api(libs.bundles.ktor.server.api)
             }
         }
