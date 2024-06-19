@@ -7,7 +7,7 @@ An i18n plugin for Ktor Freemarker
 Add dependency to your `build.gradle(.kts)` or `pom.xml`:
 
 ```kotlin
-api("dev.kaccelero:ktor-i18n-freemarker:0.1.0")
+api("dev.kaccelero:ktor-i18n-freemarker:0.1.1")
 api("io.ktor:ktor-server-freemarker:2.3.9")
 ```
 
@@ -17,7 +17,7 @@ api("io.ktor:ktor-server-freemarker:2.3.9")
     <dependency>
         <groupId>dev.kaccelero</groupId>
         <artifactId>ktor-i18n-freemarker-jvm</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </dependency>
     <dependency>
         <groupId>io.ktor</groupId>

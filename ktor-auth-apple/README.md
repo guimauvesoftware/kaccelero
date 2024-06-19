@@ -7,7 +7,7 @@ Key provider to verify tokens from Sign In With Apple.
 Add dependency to your `build.gradle(.kts)` or `pom.xml`:
 
 ```kotlin
-api("dev.kaccelero:ktor-auth-apple:0.1.0")
+api("dev.kaccelero:ktor-auth-apple:0.1.1")
 ```
 
 ```xml
@@ -16,7 +16,7 @@ api("dev.kaccelero:ktor-auth-apple:0.1.0")
     <dependency>
         <groupId>dev.kaccelero</groupId>
         <artifactId>ktor-auth-apple-jvm</artifactId>
-        <version>0.1.0</version>
+        <version>0.1.1</version>
     </dependency>
 </dependencies>
 ```
