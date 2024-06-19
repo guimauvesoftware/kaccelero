@@ -31,6 +31,12 @@ abstract class AbstractChildModelRouter<Model : IChildModel<Id, CreatePayload, U
     prefix: String? = null,
 ) : IChildModelRouter<Model, Id, CreatePayload, UpdatePayload, ParentModel, ParentId> {
 
+    // Model types
+
+    override val modelType = modelTypeInfo.kotlinType
+    override val createPayloadType = createPayloadTypeInfo.kotlinType
+    override val updatePayloadType = updatePayloadTypeInfo.kotlinType
+
     // Parameters linked to routing
 
     final override val route = route ?: (modelTypeInfo.type.simpleName!!.lowercase() + "s")
@@ -129,11 +135,11 @@ abstract class AbstractChildModelRouter<Model : IChildModel<Id, CreatePayload, U
                     return@associateWith payload
                 }
                 annotations.firstNotNullOfOrNull { it as? dev.kaccelero.annotations.ParentModel }?.let {
-                    var target: AbstractChildModelRouter<*, *, *, *, *, *> = this
+                    var target: IChildModelRouter<*, *, *, *, *, *> = this
                     do {
-                        target = target.parentRouter as? AbstractChildModelRouter<*, *, *, *, *, *>
+                        target = target.parentRouter as? IChildModelRouter<*, *, *, *, *, *>
                             ?: throw IllegalArgumentException("Illegal parent model: ${parameter.type}")
-                    } while (target.modelTypeInfo.kotlinType != parameter.type)
+                    } while (target.modelType != parameter.type)
                     return@associateWith target.get(call)
                 }
                 mapParameter(parameter) ?: throw IllegalArgumentException("Unknown parameter: ${parameter.name}")
@@ -149,9 +155,10 @@ abstract class AbstractChildModelRouter<Model : IChildModel<Id, CreatePayload, U
 
     // Default operations
 
-    open suspend fun get(call: ApplicationCall): Model {
+    override suspend fun get(call: ICall): Model {
+        if (call !is KtorCall) throw IllegalArgumentException("Unsupported call type: ${call::class.simpleName}")
         return controllerRoutes.singleOrNull { it.type == RouteType.getModel }?.let {
-            invokeControllerRoute(call, it)
+            invokeControllerRoute(call.call, it)
         } as Model
     }
 
