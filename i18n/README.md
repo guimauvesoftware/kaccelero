@@ -7,7 +7,7 @@ i18n implementations for Kotlin Multiplatform.
 Add dependency to your `build.gradle(.kts)` or `pom.xml`:
 
 ```kotlin
-api("dev.kaccelero:i18n:0.1.1")
+api("dev.kaccelero:i18n:0.2.0")
 ```
 
 ```xml
@@ -15,6 +15,6 @@ api("dev.kaccelero:i18n:0.1.1")
 <dependency>
     <groupId>dev.kaccelero</groupId>
     <artifactId>i18n-jvm</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.0</version>
 </dependency>
 ```
