@@ -10,8 +10,8 @@ mavenPublishing {
     publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
     pom {
-        name.set("ktor-health")
-        description.set("Health check for Ktor projects.")
+        name.set("routers-ktor")
+        description.set("Ktor implementation of routers.")
         url.set(project.ext.get("url")?.toString())
         licenses {
             license {
@@ -48,7 +48,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":routers-ktor"))
+                api(project(":routers"))
+                api(project(":i18n-ktor"))
+                api(libs.bundles.ktor.server.api)
+                api(libs.bundles.swagger)
             }
         }
         val jvmTest by getting {

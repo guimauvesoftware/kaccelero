@@ -10,8 +10,8 @@ mavenPublishing {
     publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
     pom {
-        name.set("ktor-health")
-        description.set("Health check for Ktor projects.")
+        name.set("i18n-ktor-freemarker")
+        description.set("An i18n plugin for Ktor Freemarker")
         url.set(project.ext.get("url")?.toString())
         licenses {
             license {
@@ -48,14 +48,13 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":routers-ktor"))
+                api(project(":i18n-ktor"))
+                api(libs.bundles.ktor.server.freemarker)
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.bundles.ktor.server.tests)
-                implementation(libs.tests.mockk)
             }
         }
     }

@@ -10,8 +10,8 @@ mavenPublishing {
     publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL)
     signAllPublications()
     pom {
-        name.set("ktor-health")
-        description.set("Health check for Ktor projects.")
+        name.set("routers-client-ktor")
+        description.set("Client for APIs using routers.")
         url.set(project.ext.get("url")?.toString())
         licenses {
             license {
@@ -34,6 +34,30 @@ mavenPublishing {
 }
 
 kotlin {
+    // Tiers are in accordance with <https://kotlinlang.org/docs/native-target-support.html>
+    // Tier 1
+    macosX64()
+    macosArm64()
+    iosSimulatorArm64()
+    iosX64()
+
+    // Tier 2
+    linuxX64()
+    linuxArm64()
+    watchosSimulatorArm64()
+    watchosX64()
+    watchosArm32()
+    watchosArm64()
+    tvosSimulatorArm64()
+    tvosX64()
+    tvosArm64()
+    iosArm64()
+
+    // Tier 3
+    mingwX64()
+    //watchosDeviceArm64() // Not supported by ktor
+
+    // jvm & js
     jvmToolchain(21)
     jvm {
         withJava()
@@ -43,19 +67,26 @@ kotlin {
             }
         }
     }
+    js {
+        binaries.library()
+        nodejs()
+        browser()
+        //generateTypeScriptDefinitions() // Not supported for now because of collections etc...
+    }
 
     applyDefaultHierarchyTemplate()
     sourceSets {
         val commonMain by getting {
             dependencies {
-                api(project(":routers-ktor"))
+                implementation(kotlin("reflect"))
+                api(project(":core"))
+                api(libs.bundles.ktor.client.api)
             }
         }
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(libs.bundles.ktor.server.tests)
-                implementation(libs.tests.mockk)
+                implementation(libs.bundles.ktor.client.tests)
             }
         }
     }

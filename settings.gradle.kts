@@ -73,6 +73,7 @@ dependencyResolutionManagement {
                     "ktor-server-content-negotiation",
                     "ktor-server-sessions",
                     "ktor-server-auth-jwt",
+                    "ktor-server-websockets",
                     "ktor-serialization-kotlinx-json"
                 )
             )
@@ -89,13 +90,6 @@ dependencyResolutionManagement {
                 listOf(
                     "ktor-server-core",
                     "ktor-server-freemarker"
-                )
-            )
-            bundle(
-                "ktor-server-websockets",
-                listOf(
-                    "ktor-server-core",
-                    "ktor-server-websockets"
                 )
             )
             bundle(
@@ -138,17 +132,15 @@ rootProject.name = "kaccelero"
 include(":core")
 include(":controllers")
 include(":routers")
+include(":routers-ktor")
+include(":routers-client-ktor")
 include(":i18n")
+include(":i18n-ktor")
+include(":i18n-ktor-freemarker")
 include(":exposed-core")
 include(":ktor-auth")
 include(":ktor-auth-apple")
 include(":ktor-database-sessions")
 include(":ktor-health")
-include(":ktor-i18n")
-include(":ktor-i18n-freemarker")
-include(":ktor-routers")
-include(":ktor-routers-websockets")
-include(":ktor-routers-client")
-include(":ktor-routers-locale")
 include(":ktor-sentry")
 
